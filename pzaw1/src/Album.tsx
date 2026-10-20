@@ -1,12 +1,6 @@
-interface AlbumProps{
-    cover:string;
-    albumName:string;
-    bandName:string;
-    musicKind:string;
-    year:number;
 
-}
-function Album({cover, albumName, bandName, musicKind, year}:AlbumProps){
+import type { AlbumProps } from "./types";
+function Album({cover, albumName, bandName, musicKind, year, songs}:AlbumProps){
 
     return(
         <> 
@@ -14,7 +8,16 @@ function Album({cover, albumName, bandName, musicKind, year}:AlbumProps){
         <img src={cover}/>
         <p>Wydany przez: {bandName}</p>
         <p>Gatunek muzyczny: {musicKind}</p>
-        <p>Rok wydania: {year}</p> 
+        <p>Rok wydania: {year}</p>
+        {songs.map((song,index)=>{
+            return(
+                <div key={index}>
+                    <p>{song.name} - {song.time}</p>
+                </div>
+            )
+        })}
+
+
         </>
     )
 }

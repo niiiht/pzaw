@@ -1,9 +1,4 @@
-interface BookProps{
-    cover:string;
-    title:string;
-    year:number;
-    pages:number;
-}
+import type {BookProps} from './types.tsx';
 function Book({cover, title, year, pages}:BookProps){
 
     return(

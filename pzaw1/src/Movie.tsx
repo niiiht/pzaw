@@ -1,17 +1,13 @@
-interface FilmProps {
-    movieName: string;
-    year: number;
-    poster: string;
-  }
+import type {MovieProps}from './types.tsx';
 
-function Movie({movieName, year, poster}: FilmProps) {
+function Movie({movieName, year, poster}: MovieProps) {
     
 
 
   return (
     <>
     
-      <h1>{movieName}</h1>
+      <h3>{movieName}</h3>
       <img src={poster} alt={movieName} />
       <p>Year: {year}</p>
 
