@@ -2,12 +2,16 @@ export  interface MovieProps {
     movieName: string;
     year: number;
     poster: string;
+    rating: number;
+    isGood?:boolean;
   }
   export  interface BookProps{
-      cover:string;
+    cover:string;
     title:string;
+    author:string;
     year:number;
     pages:number;
+    isClassic?:boolean;
 }
 export interface AlbumProps{
     cover:string;
@@ -15,7 +19,8 @@ export interface AlbumProps{
     bandName:string;
     musicKind:string;
     year:number;
-    songs:{name:string, time:number}[];
+    isSongless?:boolean;
+    songs:{name:string, time?:string}[];
     
 
 }
