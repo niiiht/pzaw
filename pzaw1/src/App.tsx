@@ -1,4 +1,4 @@
-import './App.css';
+// import './App.css';
 import type {MovieProps} from './types.tsx';
 import type {BookProps} from './types.tsx';
 import type { AlbumProps } from "./types";
@@ -84,23 +84,29 @@ for (const album of albums) {
   return (
   <>
     <div className="container">
+
     <section>
 
       <h2 style={{cursor:'pointer'}} onClick={() => {setMoviesOpen(!moviesOpen)}}>{moviesOpen ? 'Filmy ⏷' : 'Filmy ▸'}</h2>
-      <div className='row row-cols-3'>
-      {moviesOpen && movies.map((movie, index) => (
+
+
+      {moviesOpen && (
+        <>  <input type="text"className="form-control" placeholder="Wpisz tytuł"/>     
+      <div className='row row-cols-3'>  
+        {movies.map((movie, index) => (
         <div className='col'>
-        <Movie key={index} movieName={movie.movieName} year={movie.year} poster={movie.poster} rating={movie.rating} isGood={movie.isGood} />
+        <Movie key={index} {...movie} />
         </div>
-      ))}
-      </div>
+      ))}  </div></>
+      )}
+    
     </section>
     <section >
       <h2 style={{cursor:'pointer'}} onClick={() => {setMoviesAfter2010Open(!moiviesAfter2010Open)}}>{moiviesAfter2010Open ? 'Filmy po 2010 roku ⏷' : 'Filmy po 2010 roku ▸'}</h2>
       <div className='row row-cols-3'>
              {moiviesAfter2010Open && moviesAfter2010.map((movie, index) => (
                <div className='col'>
-        <Movie key={index} movieName={movie.movieName} year={movie.year} poster={movie.poster} rating={movie.rating} isGood={movie.isGood} />
+        <Movie key={index}  {...movie} />
               </div>
       ))}
       </div>
@@ -113,7 +119,7 @@ for (const album of albums) {
           <div className='row row-cols-3'>
           {booksOpen && booksSortedByTitle.map((book,index) => (
             <div className='col'>
-        <Book key={index} title={book.title} author={book.author} pages={book.pages} year={book.year} cover = {book.cover} isClassic={book.isClassic} />
+        <Book key={index}  {...book}/>
         </div>
 
       ))}
@@ -126,7 +132,7 @@ for (const album of albums) {
       <div className='row row-cols-3'>
       {booksSortedByYearOpen && booksSortedByYear.map((book,index) => (
         <div className='col'>
-        <Book key={index} title={book.title} author={book.author} pages={book.pages} year={book.year} cover = {book.cover} isClassic={book.isClassic}/>
+        <Book key={index}  {...book}/>
         </div>
 
       ))}
@@ -134,21 +140,21 @@ for (const album of albums) {
       
     </section>
 
-     <section >
+     <section>
       <h2 style={{cursor:'pointer'}} onClick={() => {setAlbumsOpen(!albumsOpen)}}>{albumsOpen ? 'Albumy ⏷' : 'Albumy ▸'}</h2>
       <div className='row row-cols-3'>
-       {albumsOpen && albums.map((album,index) =>(
-        <div className='col'>
-        <Album key={index} albumName={album.albumName} bandName={album.bandName} cover={album.cover} musicKind={album.musicKind} year={album.year} songs ={album.songs} isSongless={album.isSongless} />
-        </div>
+        {albumsOpen && albums.map((album,index) => (
+          <div className='col'>
+            <Album key={index} {...album}/>
+          </div>
+        )) }
 
-       ))}
-       </div>
-
-     </section>
+      </div>
+    </section>
+  
      <section>
       <h2 style={{cursor:"pointer"}} onClick={()=>{setAlbumWithMostSongsOpen(!albumWithMostSongsOpen)}}>{albumWithMostSongsOpen ? "Album z największą liczbą utworów ⏷" : "Album z największą liczbą utworów ▸"}</h2>
-       {albumWithMostSongsOpen && <Album albumName={albumWithMostSongs.albumName} bandName={albumWithMostSongs.bandName} cover={albumWithMostSongs.cover} musicKind={albumWithMostSongs.musicKind} year={albumWithMostSongs.year} songs={albumWithMostSongs.songs} isSongless={albumWithMostSongs.isSongless}/>}
+       {albumWithMostSongsOpen && <Album {...albumWithMostSongs}/>}
      </section>
      </div>
     

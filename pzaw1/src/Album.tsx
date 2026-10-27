@@ -1,6 +1,13 @@
 
 import type { AlbumProps } from "./types";
 function Album({cover, albumName, bandName, musicKind, year, songs,isSongless}:AlbumProps){
+    // const handleSongClick = (title:string) =>{
+    //     console.log(title)
+
+    // }
+    function handleSongClick(title:string,albumName:string){
+        console.log("Wybrano utwór: "+title + " z " + albumName  );
+    }
 
     return(
         <> 
@@ -17,7 +24,7 @@ function Album({cover, albumName, bandName, musicKind, year, songs,isSongless}:A
                     {songs.map((song,index)=>{
                         return(
                             <tr key={index}>
-                        <td>{song.name}</td>
+                        <td onClick={()=>handleSongClick(song.name,albumName)}>{song.name}</td> {/* tu trzeba napisać tak, bo jakby się by zapisało onClick=handleSongClick(song.name) to funkcja wywołałą by się przy renderowaniu, a byłaby pusta. Więc taki zapis jest potrzebny żeby nie wyskoczył błąd :))) */}
                         <td className=" text-end">{song.time}</td>
                         
                         </tr>
