@@ -68,11 +68,23 @@ const [booksOpen, setBooksOpen] =useState(false);
 const [booksSortedByYearOpen, setBooksSortedByYearOpen] = useState(false);
 const [albumsOpen, setAlbumsOpen] = useState(false);
 const [albumWithMostSongsOpen, setAlbumWithMostSongsOpen] = useState(false);
+const [moviesSearch, setMoviesSearch] = useState("");
+const [booksSearch, setBooksSearch] = useState("");
+const [albumsSearch, setAlbumsSearch] = useState("");
 
 
 const moviesAfter2010: MovieProps[] = movies.filter((movie) => movie.year > 2010); 
 const booksSortedByTitle: BookProps[] = [...books].sort((a, b) => a.title.localeCompare(b.title));
-const booksSortedByYear: BookProps[] = books.sort((a, b) => a.year - b.year);
+const booksSortedByYear: BookProps[] = [...books].sort((a, b) => a.year - b.year);
+const searchedMovies = movies.filter((movie) =>
+  movie.movieName.toLowerCase().includes(moviesSearch.toLowerCase())
+);
+const searchedBooks = booksSortedByTitle.filter((book) =>
+  book.title.toLowerCase().includes(booksSearch.toLowerCase())
+);
+const searchedAlbums = albums.filter((album) =>
+  album.albumName.toLowerCase().includes(albumsSearch.toLowerCase())
+);
 let albumWithMostSongs = albums[0];
 for (const album of albums) {
   if (album.songs.length > albumWithMostSongs.songs.length) {
@@ -80,6 +92,18 @@ for (const album of albums) {
   }
 }
 
+function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const id = event.target.id;
+  const value = event.target.value;
+
+  if (id === "moviesSearch") {
+    setMoviesSearch(value);
+  } else if (id === "booksSearch") {
+    setBooksSearch(value);
+  } else if (id === "albumsSearch") {
+    setAlbumsSearch(value);
+  }
+}
 
   return (
   <>
@@ -91,9 +115,13 @@ for (const album of albums) {
 
 
       {moviesOpen && (
-        <>  <input type="text"className="form-control" placeholder="Wpisz tytuł"/>     
+        <>
+      <div className="input-group input-group-lg mb-3 shadow-sm rounded-3 overflow-hidden">
+        <input onChange={handleChange} id="moviesSearch" type="text" className="form-control border-0 bg-light" placeholder="Wpisz tytuł filmu"/>
+      </div>
+      <p>{moviesSearch}</p>
       <div className='row row-cols-3'>  
-        {movies.map((movie, index) => (
+        {searchedMovies.map((movie, index) => (
         <div className='col'>
         <Movie key={index} {...movie} />
         </div>
@@ -104,6 +132,7 @@ for (const album of albums) {
     <section >
       <h2 style={{cursor:'pointer'}} onClick={() => {setMoviesAfter2010Open(!moiviesAfter2010Open)}}>{moiviesAfter2010Open ? 'Filmy po 2010 roku ⏷' : 'Filmy po 2010 roku ▸'}</h2>
       <div className='row row-cols-3'>
+
              {moiviesAfter2010Open && moviesAfter2010.map((movie, index) => (
                <div className='col'>
         <Movie key={index}  {...movie} />
@@ -114,18 +143,28 @@ for (const album of albums) {
     </section>
 
     
-     <section >
+     <section>
       <h2 style={{cursor:'pointer'}} onClick={() => {setBooksOpen(!booksOpen)}}>{booksOpen ? 'Książki ⏷' : 'Książki ▸'}</h2>
-          <div className='row row-cols-3'>
-          {booksOpen && booksSortedByTitle.map((book,index) => (
+   
+          {booksOpen && (
+               <>
+               <div className="input-group input-group-lg mb-3 shadow-sm rounded-3 overflow-hidden">
+                 <input onChange={handleChange} type="text" id="booksSearch" className="form-control border-0 bg-light" placeholder="Wpisz tytuł książki"/>
+               </div>
+                <p>{booksSearch}</p>
+                      <div className='row row-cols-3'>
+            {searchedBooks.map((book,index) => (
             <div className='col'>
-        <Book key={index}  {...book}/>
-        </div>
+              <Book key={index}  {...book}/>
+            </div>
+        ))}
+    </div>
 
-      ))}
+         </>
+          )}
+  
       
-          </div>
-
+      
     </section>
         <section >
       <h2 style={{cursor:'pointer'}} onClick={() => {setBooksSortedByYearOpen(!booksSortedByYearOpen)}}>{booksSortedByYearOpen ? 'Książki posortowane po roku ⏷' : 'Książki posortowane po roku ▸'}</h2>
@@ -142,15 +181,24 @@ for (const album of albums) {
 
      <section>
       <h2 style={{cursor:'pointer'}} onClick={() => {setAlbumsOpen(!albumsOpen)}}>{albumsOpen ? 'Albumy ⏷' : 'Albumy ▸'}</h2>
-      <div className='row row-cols-3'>
-        {albumsOpen && albums.map((album,index) => (
+      
+        {albumsOpen && (<>
+         <div className="input-group input-group-lg mb-3 shadow-sm rounded-3 overflow-hidden">
+           <input onChange={handleChange} id="albumsSearch" type="text" className="form-control border-0 bg-light" placeholder="Wpisz nazwe albumu"/>
+         </div>
+          <p>{albumsSearch}</p>
+          <div className='row row-cols-3'>
+          {searchedAlbums.map((album,index) => (
+         
           <div className='col'>
             <Album key={index} {...album}/>
           </div>
-        )) }
-
-      </div>
-    </section>
+         
+        ))}
+        </div>
+         </>
+        )}
+         </section>
   
      <section>
       <h2 style={{cursor:"pointer"}} onClick={()=>{setAlbumWithMostSongsOpen(!albumWithMostSongsOpen)}}>{albumWithMostSongsOpen ? "Album z największą liczbą utworów ⏷" : "Album z największą liczbą utworów ▸"}</h2>
